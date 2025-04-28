@@ -1,0 +1,130 @@
+<!-- Wrapper -->
+<div class="max-w-12xl mx-auto p-4">
+  
+  <!-- Header Section -->
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-bold">Manage Employee</h1>
+    <button 
+      pButton 
+      label="Add Employee" 
+      icon="pi pi-plus" 
+      class="p-button-primary" 
+      (click)="showModal = true">
+    </button>
+  </div>
+
+  <!-- Search Field -->
+  <div class="mb-4 p-float-label">
+    <input 
+      pInputText 
+      id="search" 
+      [(ngModel)]="searchText"
+      placeholder=" " 
+      class="w-full" />
+    <label for="search">Search employees...</label>
+  </div>
+
+  <!-- Employee Table -->
+  <p-table 
+    [value]="filteredEmployees" 
+    [paginator]="true" 
+    [rows]="5" 
+    [responsiveLayout]="'scroll'"
+    class="p-datatable-gridlines ">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Employee ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Joining Date</th>
+        <th>Pan</th>
+        <th>Aadhaar</th>
+        <th>AccountNo</th>
+        <th>IFSC Code</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-employee>
+      <tr>
+        <td>{{ employee.employeeId }}</td>
+        <td>
+          {{ employee.name }}
+        </td>
+        <td>{{ employee.address }}</td>
+        <td>{{ employee.joiningDate | date:'mediumDate' }}</td>
+        <td>{{ employee.pan }}</td>
+        <td>{{ employee.aadhar }}</td>
+        <td>{{ employee.accountNo }}</td>
+        <td>{{ employee.ifscCode }}</td>
+        <td class="flex gap-2" style="display: flex; gap: 8px; align-items: center;">
+          <button 
+            class="px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 transition-colors" 
+            (click)="onEdit(employee)">
+            <i class="pi pi-pencil"></i> Edit
+          </button>
+          <button 
+            class="px-4 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600 transition-colors" 
+            (click)="onDelete(employee.employeeId)">
+            <i class="pi pi-trash"></i> Delete
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+    
+  </p-table>
+
+  <!-- Add Employee Modal -->
+  <p-dialog 
+  header="Add Employee" 
+  [(visible)]="showModal" 
+  [modal]="true" 
+  [closable]="true" 
+  [style]="{width: '400px'}">
+
+<form (ngSubmit)="onAddEmployee()" class="p-fluid">
+
+  <div class="p-field mb-3">
+    <label for="name" class="p-d-block">Name</label>
+    <input pInputText id="name" name="name" [(ngModel)]="newEmployee.name" required class="p-inputtext p-d-block w-full"/>
+  </div>
+
+  <div class="p-field mb-3">
+    <label for="address" class="p-d-block">Address</label>
+    <input pInputText id="address" name="address" [(ngModel)]="newEmployee.address" required class="p-inputtext p-d-block w-full"/>
+  </div>
+
+  <div class="p-field mb-3">
+    <label for="joiningDate" class="p-d-block">Joining Date</label>
+    <p-datepicker  id="joiningDate" name="joiningDate" [(ngModel)]="newEmployee.joiningDate" dateFormat="dd-mm-yy" [showTime]="false"  showIcon="true" class="p-col-12 p-d-block w-full"></p-datepicker >
+  </div>
+
+  <div class="p-field mb-3">
+    <label for="pan" class="p-d-block">PAN Number</label>
+    <input pInputText id="pan" name="pan" [(ngModel)]="newEmployee.pan" required class="p-inputtext p-d-block w-full"/>
+  </div>
+
+  <div class="p-field mb-3">
+    <label for="aadhar" class="p-d-block">Aadhaar</label>
+    <input pInputText id="aadhar" name="aadhar" [(ngModel)]="newEmployee.aadhar" required class="p-inputtext p-d-block w-full"/>
+  </div>
+
+  <div class="p-field mb-3">
+    <label for="accountNo" class="p-d-block">Account Number</label>
+    <input pInputText id="accountNo" name="accountNo" [(ngModel)]="newEmployee.accountNo" required class="p-inputtext p-d-block w-full"/>
+  </div>
+
+  <div class="p-field mb-4">
+    <label for="ifscCode" class="p-d-block">IFSC Code</label>
+    <input pInputText id="ifscCode" name="ifscCode" [(ngModel)]="newEmployee.ifscCode" required class="p-inputtext p-d-block w-full"/>
+  </div>
+
+  <button pButton label="Save" type="submit" class="p-button-primary w-full"></button>
+
+</form>
+
+</p-dialog>
+
+
+</div>

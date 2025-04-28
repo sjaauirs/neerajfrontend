@@ -1,0 +1,11 @@
+.p-datatable {
+    border-bottom: 2px solid #000; /* Change the color as needed */
+    border-collapse: separate;     /* Ensure that borders are not collapsed */
+    margin-bottom: 0;              /* Avoid extra margin if necessary */
+  }
+  
+  /* Remove unnecessary padding/margin around table */
+  .p-datatable-wrapper {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
