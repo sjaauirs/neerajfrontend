@@ -1,0 +1,125 @@
+<div class="p-6 max-w-5xl mx-auto space-y-6">
+    <h1 class="text-2xl font-bold mb-4">Client Company</h1>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+      <!-- Search or Select Company -->
+      <div class="mb-6">
+        <label class="block mb-2 font-medium">Search/Select a Company</label>
+        <div class="flex items-center gap-4">
+          <!-- Select Company Dropdown -->
+          <p-dropdown 
+          [options]="companyOptions"
+          formControlName="selectedCompany"
+          optionLabel="companyName"
+          placeholder="Select a Company"
+          class="w-full"
+        ></p-dropdown>
+          
+          <!-- Option to Add a New Company -->
+          <button pButton type="button" icon="pi pi-plus" label="Add New Company" (click)="toggleAddCompany(true)" class="p-button-sm"></button>
+        </div>
+      </div>
+
+      <!-- Show Company Info Section if Company is Selected or Add Company Button is Triggered -->
+      <div *ngIf="showCompanyForm" class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-1 font-medium">Company Name</label>
+            <input pInputText formControlName="companyName" placeholder="Company Name" class="w-full" />
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">Address</label>
+            <input pInputText formControlName="addressLine1" placeholder="Address" class="w-full" />
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">Phone</label>
+            <input pInputText formControlName="phoneNumber" placeholder="Phone" class="w-full" />
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">Email</label>
+            <input pInputText formControlName="email" placeholder="Email" class="w-full" />
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">Website</label>
+            <input pInputText formControlName="website" placeholder="Website" class="w-full" />
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">Account Number</label>
+            <input pInputText formControlName="accountNumber" placeholder="Account Number" class="w-full" />
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">GST Number</label>
+            <input pInputText formControlName="gstNumber" placeholder="GST Number" class="w-full" />
+          </div>
+        </div>
+
+        <!-- Challan Tags -->
+        <div formArrayName="challanTags" class="space-y-6">
+          <div *ngFor="let tag of challanTags.controls; let i = index" [formGroupName]="i" class="border p-4 rounded shadow">
+            <div class="flex justify-between items-center mb-3">
+              <h2 class="font-semibold text-lg mb-2">
+                  Challan Tag ID: {{ form.get('challanTags')?.value[i]?.challanTagId || (i + 1) }}
+                </h2>
+              <button pButton type="button" icon="pi pi-plus" label="Add Challan" (click)="addChallan(i)" class="p-button-sm"></button>
+            </div>
+
+            <div class="mb-3">
+              <label class="block mb-1 font-medium">Tag Name</label>
+              <input pInputText formControlName="tagName" placeholder="Tag Name" class="w-full" />
+            </div>
+            <div class="mb-3">
+              <label class="block mb-1 font-medium">Description</label>
+              <input pInputText formControlName="description" placeholder="Description" class="w-full" />
+            </div>
+
+            <!-- Challans -->
+            <div formArrayName="challans" class="space-y-4">
+              <div *ngFor="let challan of getChallans(i).controls; let j = index" [formGroupName]="j" class="border p-3 rounded bg-gray-50">
+                <div class="flex justify-between items-center mb-2">
+                  <h3 class="font-semibold text-md mb-2">
+                      Challan ID: {{ getChallans(i).value[j]?.challanId || (j + 1) }}
+                    </h3>
+                  <button pButton type="button" icon="pi pi-plus" label="Add Item" (click)="addChallanItem(i, j)" class="p-button-sm"></button>
+                </div>
+
+                <div class="mb-3">
+                  <label class="block mb-1 font-medium">Challan Date</label>
+                  <input type="date" pInputText formControlName="challanDate" class="w-full" />
+                </div>
+
+                <!-- Items -->
+                <div formArrayName="challanItems" class="space-y-3">
+                  <div *ngFor="let item of getChallanItems(i, j).controls; let k = index" [formGroupName]="k"
+                       class="grid grid-cols-4 gap-4 items-end border-t pt-3">
+                    <div>
+                      <label class="block text-sm font-medium">Style Number</label>
+                      <input pInputText formControlName="styleNumber" placeholder="Style Number" class="w-full" />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium">Count</label>
+                      <input pInputText formControlName="itemCount" type="number" placeholder="Count" class="w-24" />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium">Price</label>
+                      <input pInputText formControlName="price" type="number" placeholder="Price" class="w-24" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add Challan Tag Button -->
+          <div class="text-right">
+            <button pButton type="button" label="Add Challan Tag" (click)="addChallanTag()" class="mt-4"></button>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-right">
+          <button pButton type="submit" label="Save" class="mt-6"></button>
+        </div>
+      </div>
+
+    </form>
+</div>
