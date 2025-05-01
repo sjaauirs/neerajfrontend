@@ -56,6 +56,14 @@ export class ClientCompanyComponent {
     this.clientCompanyService.getClientCompany().subscribe(data => {
       this.populateForm(data);
     });
+
+
+    this.form.get('selectedCompany')?.valueChanges.subscribe(value => {
+      console.log("Selected company changed to: " + value);
+      this.showCompanyForm = true;
+    });
+
+
   }
 
   toggleAddCompany(flag: boolean) {
@@ -63,21 +71,21 @@ export class ClientCompanyComponent {
     this.form.get('selectedCompany')?.reset();
   }
 
-  onCompanySelect(event: any) {
-    if (event.value) {
-      // Populate the form with the existing company details
-      this.showCompanyForm = false;
-      this.form.patchValue({
-        companyName: event.value.companyName,
-        addressLine1: event.value.address,
-        phoneNumber: event.value.phoneNumber,
-        email: event.value.email,
-        website: event.value.website,
-        accountNumber: event.value.accountNumber,
-        gstNumber: event.value.gstNumber,
-      });
-    }
-}
+//   onCompanySelect(event: any) {
+//     if (event.value) {
+//       // Populate the form with the existing company details
+//       this.showCompanyForm = false;
+//       this.form.patchValue({
+//         companyName: event.value.companyName,
+//         addressLine1: event.value.address,
+//         phoneNumber: event.value.phoneNumber,
+//         email: event.value.email,
+//         website: event.value.website,
+//         accountNumber: event.value.accountNumber,
+//         gstNumber: event.value.gstNumber,
+//       });
+//     }
+// }
 
   populateForm(data: ClientCompany): void {
     // Update the main form fields
@@ -189,4 +197,5 @@ export class ClientCompanyComponent {
       challanTags: this.fb.array([])
     });
   }
+
 }
